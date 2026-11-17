@@ -14,9 +14,13 @@
 ├── frontend/                 Vue 3 + Vite + TypeScript 前端（唯一运行单元）
 │   ├── src/views/            每个业务模块一个页面
 │   ├── src/api/local-service.ts   本地数据服务：列表、筛选、动作流转、导出
+│   ├── src/api/anomaly-service.ts 异常检测应用服务：窗口推进、结果数据集、CSV 导出
+│   ├── src/domain/anomaly/   异常检测领域引擎（纯函数）：窗口/局部重算/跨日冲突/通知去重
 │   ├── src/data/             模块元数据 / 示例数据 / localStorage 持久化
 │   ├── src/stores/           会话与筛选状态
+│   ├── tests/                node:test 用例（esbuild 打包，零新增依赖）
 │   └── vite.config.ts        dev server 配置（open: false，无 /api 代理）
+├── docs/anomaly-migration-plan.md  异常检测窗口推进与局部重算迁移计划
 ├── .gitignore
 └── docker-compose.yml
 ```
@@ -31,10 +35,11 @@ npm run dev
 
 前端默认监听 `http://127.0.0.1:5173/`，dev server 不会自动打开浏览器，需要自己访问。
 
-生产构建：
+测试与生产构建：
 
 ```bash
 cd frontend
+npm test         # node:test，24 个领域/场景/存储用例
 npm run build
 ```
 
